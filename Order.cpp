@@ -680,13 +680,20 @@ int main() {
 			return 0;
 		}
 		if(!strcmp(opt, "clean")) {
+			TrainData.close();
+			SeatSold.close();
+			OrderData.close(); 
 			FileOperator.NewFile("TrainData");
    			FileOperator.NewFile("SeatSold");
     		FileOperator.NewFile("OrderData");
+			TrainData.open("TrainData", ios::binary|ios::in|ios::out);
+    		SeatSold.open("SeatSold", ios::binary|ios::in|ios::out);
+    		OrderData.open("OrderData", ios::binary|ios::in|ios::out);
     		UserOperator.init();
     		TrainOperator.init();
     		IdGetter.init();
     		OrderOperator.init();
+    		puts("0");
     		continue;
 		}
 		if(!strcmp(opt, "add_user")) {
