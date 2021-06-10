@@ -60,7 +60,7 @@ class Has {
 	
 	void init() {
 		Stations.clear();
-		rt = sz = 0;
+		rt = sz = 1;
 		memset(ch, 0, sizeof(ch));
 		memset(User, 0, sizeof(User));
 		memset(Train, 0, sizeof(Train));

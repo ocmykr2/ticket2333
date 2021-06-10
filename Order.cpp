@@ -679,7 +679,7 @@ int main() {
 			UserOperator.OffLine();
 			return 0;
 		}
-		if(!strcmp(opt, "clear")) {
+		if(!strcmp(opt, "clean")) {
 			FileOperator.NewFile("TrainData");
    			FileOperator.NewFile("SeatSold");
     		FileOperator.NewFile("OrderData");
