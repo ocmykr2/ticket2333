@@ -272,6 +272,7 @@ public:
 		UserNum = Us[UserID].OrderNum + 1;
 		Order NewOne(UserID, TrainID, UserNum, Num, Cost, curr, StartSta, EndSta);
 		bool it = NewOne.valid();
+		if(Num > tmp[0].SeatNum) return -1;
 		
 		if(!it && !ok) return - 1;
 		if(it) {
@@ -649,8 +650,8 @@ public:
 }OrderOperator;
 
 int main() {
-//	freopen("data.txt", "r", stdin);
-//	freopen("data.out", "w", stdout);
+	freopen("data.txt", "r", stdin);
+	freopen("data.out", "w", stdout);
 	TrainData.open("TrainData", ios::binary|ios::in|ios::out);
     SeatSold.open("SeatSold", ios::binary|ios::in|ios::out);
     OrderData.open("OrderData", ios::binary|ios::in|ios::out);
@@ -740,3 +741,4 @@ int main() {
 	}
 }
 #endif
+
