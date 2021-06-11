@@ -650,8 +650,8 @@ public:
 }OrderOperator;
 
 int main() {
-	freopen("data.txt", "r", stdin);
-	freopen("data.out", "w", stdout);
+//	freopen("data.txt", "r", stdin);
+//	freopen("data.out", "w", stdout);
 	TrainData.open("TrainData", ios::binary|ios::in|ios::out);
     SeatSold.open("SeatSold", ios::binary|ios::in|ios::out);
     OrderData.open("OrderData", ios::binary|ios::in|ios::out);
