@@ -18,7 +18,7 @@ fstream OrderMapGO;
 
 
 struct Who {
-	char TrainID[35], from[105], to[105];
+	char TrainID[35], from[35], to[35];
 	TimePoint L, R;
 	int Price, Seat;
 	pair <int, string> x;
@@ -227,10 +227,10 @@ public:
 				Num = getnum(opt);
 			} else if(!strcmp(opt, "-f")) {
 				Nxt();
-				Start = IdGetter.HashStation(opt);
+				Start = IdGetter.QueryStation(opt);
 			} else if(!strcmp(opt, "-t")) {
 				Nxt();
-				End = IdGetter.HashStation(opt);
+				End = IdGetter.QueryStation(opt);
 			} else if(!strcmp(opt, "-q")) {
 				Nxt();
 				ok = !strcmp(opt, "true");
@@ -253,7 +253,7 @@ public:
 		
 		if(!tmp[0].Released) return -1;
 		
-		if(_a >= _b || !_a || !_b) return -1;
+		if(_a > _b || !_a || !_b) return -1;
 		TimePoint StartWhat = tmp[0].LDate;
 		StartWhat.Hour = tmp[0].StartTime.Hour;
 		StartWhat.Minute = tmp[0].StartTime.Minute;
@@ -386,10 +386,10 @@ public:
 			Nxt();
 			if(!strcmp(opt, "-s")) {
 				Nxt();
-				Start = IdGetter.HashStation(opt);
+				Start = IdGetter.QueryStation(opt);
 			} else if(!strcmp(opt, "-t")) {
 				Nxt();
-				End = IdGetter.HashStation(opt);
+				End = IdGetter.QueryStation(opt);
 			} else if(!strcmp(opt, "-d")) {
 				Nxt();
 				cur.Month = (opt[0] - '0') * 10 + opt[1] - '0';
@@ -506,10 +506,10 @@ public:
 			Nxt();
 			if(!strcmp(opt, "-s")) {
 				Nxt();
-				Start = IdGetter.HashStation(opt);
+				Start = IdGetter.QueryStation(opt);
 			} else if(!strcmp(opt, "-t")) {
 				Nxt();
-				End = IdGetter.HashStation(opt);
+				End = IdGetter.QueryStation(opt);
 			} else if(!strcmp(opt, "-d")) {
 				Nxt();
 				cur.Month = (opt[0] - '0') * 10 + opt[1] - '0';
@@ -543,7 +543,6 @@ public:
 		int NowDay = 0, RTrainID = 0, who = 0, LTrainID = 0, Mid = 0;
 		TimePoint Time;
 		Rpointer = Station_To_Train.upper_bound(make_pair(Start, 1000000000));
-		bool dbg = (ttt2 == 64506);
 		int tot = 0;
 		Train tmp[2];
 		for(it = Lpointer; it != Rpointer; ++ it) {
