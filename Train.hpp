@@ -184,7 +184,7 @@ public:
 				scanf("%s", opt); int pos = 0, l = strlen(opt), lst = 0;
 				for(int i = 1; i <= NewOne.StationNum; ++ i) {
 					int tot = 0;
-					while(pos < l && opt[pos]  != '|') {
+					while(pos < l && opt[pos] != '|') {
 						Name[tot ++] = opt[pos ++];
 					}
 					++ pos;
@@ -239,17 +239,18 @@ public:
 				NewOne.LDate.Month = 10 * (opt[0] - '0') + opt[1] - '0';
 				NewOne.LDate.Date = 10 * (opt[3] - '0') + opt[4] - '0';
 				NewOne.RDate.Month = 10 * (opt[6] - '0') + (opt[7] - '0');
-				NewOne.RDate.Date = 10 * (opt[9] - '0') + (opt[10] - '0');				
+				NewOne.RDate.Date = 10 * (opt[9] - '0') + (opt[10] - '0');			
 			} else if(!strcmp(opt, "-y")) {
 				scanf("%s", opt);
 				NewOne.Type = opt[0];				
 			}
 			
 		}
-		if(ans == -1 || !NewOne.StartTime.valid() || !NewOne.LDate.valid() || !NewOne.RDate.valid()
+/*		if(ans == -1 || !NewOne.StartTime.valid() || !NewOne.LDate.valid() || !NewOne.RDate.valid()
 		|| NewOne.RDate < NewOne.LDate || !NewOne.SeatNum) {
 			return -1;
-		}
+		}*/
+		if(ans == -1 || !NewOne.SeatNum) return -1;
 		int pos = FileOperator.getend(TrainData);
 		for(int i = 1; i < NewOne.StationNum; ++ i) {
 			NewOne.Time[i] += NewOne.StopTime[i];
