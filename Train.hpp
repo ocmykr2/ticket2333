@@ -180,6 +180,7 @@ public:
 			} else if(!strcmp(opt, "-n")) scanf("%d", &NewOne.StationNum);
 			else if(!strcmp(opt, "-m")) scanf("%d", &NewOne.SeatNum);
 			else if(!strcmp(opt, "-s")) {
+				if(!NewOne.StationNum) throw;
 				scanf("%s", opt); int pos = 0, l = strlen(opt), lst = 0;
 				for(int i = 1; i <= NewOne.StationNum; ++ i) {
 					int tot = 0;
@@ -192,6 +193,7 @@ public:
 					NewOne.Station[i] = now;
 				}			
 			} else if(!strcmp(opt, "-p")) {
+				if(!NewOne.StationNum) throw;
 				scanf("%s", opt); int pos = 0, l = strlen(opt), lst = 0;
 				for(int i = 1; i < NewOne.StationNum; ++ i) {
 					int tot = 0;
@@ -208,6 +210,7 @@ public:
 				NewOne.StartTime.Minute = 10 * (opt[3] - '0') + opt[4] - '0';
 				NewOne.StartTime.Month = NewOne.StartTime.Date = 1;				
 			} else if(!strcmp(opt, "-t")) {
+				if(!NewOne.StationNum) throw;
 				scanf("%s", opt); int pos = 0, l = strlen(opt), lst = 0;
 				for(int i = 1; i <= NewOne.StationNum; ++ i) {
 					int tot = 0;
@@ -219,6 +222,7 @@ public:
 					NewOne.Time[i] = (getnum(Name));
 				}				
 			} else if(!strcmp(opt, "-o")) {
+				if(!NewOne.StationNum) throw;
 				scanf("%s", opt); int pos = 0, l = strlen(opt);
 				if(NewOne.StationNum == 2) continue; 
 				for(int i = 2; i < NewOne.StationNum; ++ i) {
