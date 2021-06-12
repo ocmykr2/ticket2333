@@ -93,8 +93,7 @@ struct Train {
 			}
 		}
 		return;
-	}
-		
+	}	
 };
 
 fstream TrainNumGO, BegOfTrainGO, BegOfSoldGO;
@@ -115,8 +114,6 @@ public:
 		TrainNum = 0;Station_To_Train.clear();
 		memset(BegOfSold, 0, sizeof(BegOfSold));
 		memset(BegOfTrain, 0, sizeof(BegOfTrain));
-		memset(BegOfTrain, 0, sizeof(BegOfTrain));
-		memset(BegOfSold, 0, sizeof(BegOfSold));
 	}
 	
     Trainoperator() {
@@ -223,7 +220,8 @@ public:
 				}				
 			} else if(!strcmp(opt, "-o")) {
 				scanf("%s", opt); int pos = 0, l = strlen(opt);
-				for(int i = 2; i <= NewOne.StationNum; ++ i) {
+				if(NewOne.StationNum == 2) continue; 
+				for(int i = 2; i < NewOne.StationNum; ++ i) {
 					int tot = 0;
 					while(pos < l && opt[pos] != '|') {
 						Name[tot ++] = opt[pos ++];
@@ -244,8 +242,8 @@ public:
 			}
 			
 		}
-		if(ans == -1 || !NewOne.StartTime.valid() || !NewOne.LDate.valid() || !NewOne.RDate.valid() ||
-		!NewOne.SeatNum) {
+		if(ans == -1 || !NewOne.StartTime.valid() || !NewOne.LDate.valid() || !NewOne.RDate.valid()
+		|| NewOne.RDate < NewOne.LDate || !NewOne.SeatNum) {
 			return -1;
 		}
 		int pos = FileOperator.getend(TrainData);
@@ -260,15 +258,10 @@ public:
 		IdGetter.addTrain(TrainID, ID);
 		BegOfTrain[ID] = pos;
 		FileOperator.write(TrainData, pos, 1, tmp);
-//		NewOne.print(NewOne.LDate, 1);
         pos = FileOperator.getend(SeatSold);
         BegOfSold[ID] = pos;
         for(int i = 0; i < T * R; ++ i) Zero[i] = NewOne.SeatNum;
         FileOperator.write(SeatSold, pos, T * R, Zero);
-        //FileOperator.get(SeatSold, pos +, R, Seatsold);
-        //for(int i = 0; i < R; ++ i) cerr << Seatsold[i] <<' ';
-        //cerr << endl;
-//		NewOne.print();
 		return 0;
 	}
 

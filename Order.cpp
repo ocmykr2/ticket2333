@@ -112,7 +112,6 @@ struct MyOrderMap {
 		FileOperator.NewFile("OrderMapGO");
 		OrderMapGO.open("OrderMapGO", ios::in|ios::out|ios::binary);
 		int pos = 0;
-//		cerr << "D" << endl;
 		for(auto V : OrderMap) {
 			a[0] = V.first;
 			b[0] = V.second;
@@ -120,10 +119,7 @@ struct MyOrderMap {
 			pos += sizeof(pii);
 			FileOperator.write(OrderMapGO, pos, 1, b);
 			pos += sizeof(Order);
-//			cerr << a[0].first <<' ' << a[0].second << endl;
-//			b[0].print2();
 		}
-//		cerr << "D" << ' ' << FileOperator.getend(OrderMapGO) << endl;
 		OrderMapGO.close();
 	}
 }OdM;
@@ -242,7 +238,7 @@ public:
 		}
 		
 		if(!UserID || !TrainID || !Start || !End ||
-		!Us[UserID].Online) return -1;
+		!Us[UserID].Online || !Num) return -1;
 		Train tmp[1];
 		FileOperator.get(TrainData, BegOfTrain[TrainID], 1, tmp);
 		int _a = 0, _b = 0;
@@ -694,6 +690,7 @@ int main() {
     		TrainOperator.init();
     		IdGetter.init();
     		OrderOperator.init();
+    		throw;
     		puts("0");
     		continue;
 		}
