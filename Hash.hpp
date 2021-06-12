@@ -245,6 +245,8 @@ class Has {
 			strcpy(Sta[cntAll], opt);
 		}
 		
+		if(strcmp(opt, Sta[Stations[now]])) throw;
+		
 //		printf("%s I don't believe %d %d\n", opt, now, Stations[now]);
 		
 		return Stations[now];
