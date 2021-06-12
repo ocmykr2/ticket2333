@@ -246,11 +246,11 @@ public:
 			}
 			
 		}
-/*		if(ans == -1 || !NewOne.StartTime.valid() || !NewOne.LDate.valid() || !NewOne.RDate.valid()
+		if(ans == -1 || !NewOne.StartTime.valid() || !NewOne.LDate.valid() || !NewOne.RDate.valid()
 		|| NewOne.RDate < NewOne.LDate || !NewOne.SeatNum) {
 			return -1;
-		}*/
-		if(ans == -1 || !NewOne.SeatNum) return -1;
+		}
+//		if(ans == -1 || !NewOne.SeatNum) return -1;
 		int pos = FileOperator.getend(TrainData);
 		for(int i = 1; i < NewOne.StationNum; ++ i) {
 			NewOne.Time[i] += NewOne.StopTime[i];

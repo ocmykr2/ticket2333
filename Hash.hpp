@@ -252,6 +252,12 @@ class Has {
 		return Stations[now];
 	}
 	
+	int QueryStation(char *opt) {
+		int now = HashS(opt);
+		if(Stations.count(now)) return Stations[now];
+		else return 0;
+	}
+	
 	void getStation(int Id, char *opt) {
 		strcpy(opt, Sta[Id]);
 	}

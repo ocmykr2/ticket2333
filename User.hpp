@@ -16,7 +16,7 @@ struct Dan {
 };
 
 struct UserData {
-	char Password[35] = {0}, Mail[35] = {0}, Name[105] = {0}; 
+	char Password[35] = {0}, Mail[35] = {0}, Name[16] = {0}; 
 	int priv, Id, Head, Online, OrderNum;
 	UserData() {
 		priv = Id = Head = Online = OrderNum = 0;
@@ -98,8 +98,9 @@ public:
 				return -1;
 			}
 		}
+		
 		if(UserNum > 1) {
-			if(tmp.priv >= Us[curUser].priv || !Us[curUser].Online) {
+			if(tmp.priv >= Us[curUser].priv) {
 				-- UserNum;
 				return -1;
 			}
@@ -129,7 +130,7 @@ public:
 		scanf("%s", opt);
 		scanf("%s", UserName);
 		int User = IdGetter.getUser(UserName);
-		if(Us[User].Online) {
+		if(User && Us[User].Online) {
 			Us[User].Online = 0;
 			return 0;
 		}
@@ -141,7 +142,7 @@ public:
 		scanf("%s", opt); if(opt[1] == 'u') scanf("%s", UserName); else scanf("%s", ttt);
 		int CurUser = IdGetter.getUser(ttt);
 		int User = IdGetter.getUser(UserName);
-		if(!Us[CurUser].Online || !User) return -1;
+		if(!Us[CurUser].Online || !User || !CurUser) return -1;
 		if(CurUser == User || Us[CurUser].priv > Us[User].priv) {
 			printf("%s %s %s %d\n", UserName, Us[User].Name, Us[User].Mail, Us[User].priv);
 			return 0;
@@ -166,8 +167,8 @@ public:
 	int ModifyProfile() {
 		using std :: cin;
 		using std :: string;
-		int CurUser;
-		int User;
+		int CurUser = 0;
+		int User = 0;
 		UserData tmp;
 		getline(cin, cmd); if((int)cmd.back() == 13) cmd.pop_back();pos = 0, tot = 0;
 		
@@ -187,11 +188,8 @@ public:
 				strcpy(tmp.Mail, opt);
 				for(int i = 0; i < tot; ++ i) assert(opt[i] != '\0');
 			} else if(!strcmp(opt, "-g")) {
-				string fuck = cmd.substr(pos, cmd.size() - 1);
 				nxt();
-				if(tot >= 2) ans = -1;
-				int now = opt[0] - '0';
-				tmp.priv = now;
+				tmp.priv = getnum(opt); // kiao
 			} else if(!strcmp(opt, "-c")) {
 				nxt();
 				CurUser = IdGetter.getUser(opt);
@@ -215,7 +213,6 @@ public:
 		if(strlen(tmp.Mail) > 0) strcpy(Us[User].Mail, tmp.Mail);
 		printf("%s %s %s %d\n", UserName, Us[User].Name, Us[User].Mail, Us[User].priv);
 		return 0;
-		return -1;		
 	}
 	
 	void OffLine() {
@@ -225,3 +222,4 @@ public:
 	}
 }UserOperator;
 #endif
+
