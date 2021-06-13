@@ -16,7 +16,6 @@ const int refunded = 2;
 fstream OrderData;
 fstream OrderMapGO;
 
-
 struct Who {
 	char TrainID[35], from[35], to[35];
 	TimePoint L, R;
@@ -364,7 +363,7 @@ public:
 					} else fir[now.TrainID] = nxt[i];
 					if(tail[now.TrainID] == i)
 					tail[now.TrainID] = lst;
-                }
+                } else // kiao
                 lst = i;
             }
         }
