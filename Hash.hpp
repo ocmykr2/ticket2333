@@ -55,7 +55,7 @@ fstream rtGO, chGO, szGO, UserGO, TrainGO, StaGO, TraGO, cntAllGO;
 class Has {
 	public: 
 	int rt, ch[MAXSTR][63], sz, User[MAXSTR], Train[MAXSTR];
-	char Sta[100005][35], Tra[N][35];
+	char Sta[1000005][35], Tra[N][35];
 	int cntAll = 0;
 	
 	void init() {
