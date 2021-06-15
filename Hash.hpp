@@ -53,7 +53,7 @@ fstream rtGO, chGO, szGO, UserGO, TrainGO, StaGO, TraGO, cntAllGO;
 
 class Has {
 	public: 
-	int rt, ch[MAXSTR][129], sz, User[MAXSTR], Train[MAXSTR];
+	int rt, ch[MAXSTR][63], sz, User[MAXSTR], Train[MAXSTR];
 	char Sta[1000005][35], Tra[N][35];
 	int cntAll = 0;
 	
@@ -180,7 +180,10 @@ class Has {
 	}
 	
 	int ConvertToNum(char c) {
-		return (int)c;
+		if(c >= 'a' && c <= 'z') return c - 'a';
+		if(c >= 'A' && c <= 'Z') return c - 'A' + 26;
+		if(c >= '0' && c <= '9') return c - '0' + 52;
+		return 62;
 	}
 	
 	void addUser(char *s, int user) {
