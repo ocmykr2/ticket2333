@@ -53,7 +53,7 @@ fstream rtGO, chGO, szGO, UserGO, TrainGO, StaGO, TraGO, cntAllGO;
 
 class Has {
 	public: 
-	int rt, ch[MAXSTR][63], sz, User[MAXSTR], Train[MAXSTR];
+	int rt, ch[MAXSTR][129], sz, User[MAXSTR], Train[MAXSTR];
 	char Sta[1000005][35], Tra[N][35];
 	int cntAll = 0;
 	
@@ -99,8 +99,8 @@ class Has {
 		
 		int pos = 0;
 		for(int i = 1; i <= sz; ++ i) {
-			FileOperator.get(chGO, pos, 63, ch[i]);
-			pos += sizeof(int) * 63;
+			FileOperator.get(chGO, pos, 129, ch[i]);
+			pos += sizeof(int) * 129;
 		}
 		
 		pos = 0;
@@ -149,8 +149,8 @@ class Has {
 		
 		int pos = 0;
 		for(int i = 1; i <= sz; ++ i) {
-			FileOperator.write(chGO, pos, 63, ch[i]);
-			pos += sizeof(int) * 63;
+			FileOperator.write(chGO, pos, 129, ch[i]);
+			pos += sizeof(int) * 129;
 		}
 		
 		
@@ -180,10 +180,7 @@ class Has {
 	}
 	
 	int ConvertToNum(char c) {
-		if(c >= 'a' && c <= 'z') return c - 'a';
-		if(c >= 'A' && c <= 'Z') return c - 'A' + 26;
-		if(c >= '0' && c <= '9') return c - '0' + 52;
-		return 62;
+		return(int)c;
 	}
 	
 	void addUser(char *s, int user) {
