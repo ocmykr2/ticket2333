@@ -119,7 +119,7 @@ public:
 		scanf("%s", opt); if(opt[1] == 'u') scanf("%s", UserName); else scanf("%s", Password);
 		scanf("%s", opt); if(opt[1] == 'u') scanf("%s", UserName); else scanf("%s", Password);
 		int User = IdGetter.getUser(UserName);
-		if(!Us[User].Online && !strcmp(Us[User].Password, Password)) {
+		if(User && !Us[User].Online && !strcmp(Us[User].Password, Password)) {
 			Us[User].Online = 1;
 			return 0;
 		}
@@ -169,7 +169,7 @@ public:
 		using std :: string;
 		int CurUser = 0;
 		int User = 0;
-		UserData tmp;
+		UserData tmp; tmp.priv = -1;
 		getline(cin, cmd); if((int)cmd.back() == 13) cmd.pop_back();pos = 0, tot = 0;
 		
 		int ans = 0;
@@ -208,7 +208,7 @@ public:
 		if(CurUser != User && Us[CurUser].priv == Us[User].priv) return -1;
 		if(ans == -1) return -1;
 		if(strlen(tmp.Name) != 0) strcpy(Us[User].Name, tmp.Name);
-		if(tmp.priv > 0) Us[User].priv = tmp.priv;
+		if(tmp.priv >= 0) Us[User].priv = tmp.priv;
 		if(strlen(tmp.Password) > 0) strcpy(Us[User].Password, tmp.Password); 
 		if(strlen(tmp.Mail) > 0) strcpy(Us[User].Mail, tmp.Mail);
 		printf("%s %s %s %d\n", UserName, Us[User].Name, Us[User].Mail, Us[User].priv);
