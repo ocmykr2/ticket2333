@@ -26,7 +26,6 @@ struct Stationfuck {
 			i += sizeof(int);
 			FileOperator.get(StationsGO, i, 1, b);
 			Map[a[0]] = b[0];
-//			cerr << now <<' ' << a[0] <<' ' << b[0] <<  endl;
 		}
 		swap(Map, Stations);
 		StationsGO.close();
@@ -184,6 +183,7 @@ class Has {
 		if(c >= 'a' && c <= 'z') return c - 'a';
 		if(c >= 'A' && c <= 'Z') return c - 'A' + 26;
 		if(c >= '0' && c <= '9') return c - '0' + 52;
+		if(c != '_') throw;
 		return 62;
 	}
 	
