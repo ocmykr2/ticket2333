@@ -19,6 +19,7 @@ class Fileoperator {
 
     int getend(std::fstream &curFile) const {
 		curFile.seekg(0, std::ios::end);
+		curFile.clear();
 		return (int)curFile.tellg();
     }
 
