@@ -185,7 +185,7 @@ public:
 		FileOperator.write(nxtGO, 0, cnt, nxt + 1);
     	cntGO.close(); FirGO.close(); TailGO.close(); whoGO.close();
 		return;   	
-    }    
+    }
     
 	std :: string cmd;
 	int tot = 0, pos = 0;
@@ -201,7 +201,7 @@ public:
 		opt[tot] = '\0';
 	}
     
-    int BuyTicket() {
+    long long BuyTicket() {
         using std :: string;
         using std :: cin;
         int UserID = 0, TrainID = 0, Start = 0, End = 0, Num = 0;
@@ -237,7 +237,9 @@ public:
 		}
 		
 		if(!UserID || !TrainID || !Start || !End ||
-		!Us[UserID].Online || !Num) return -1;
+		!Us[UserID].Online
+//		|| !Num
+		) return -1;
 		Train tmp[1];
 		FileOperator.get(TrainData, BegOfTrain[TrainID], 1, tmp);
 		int _a = 0, _b = 0;
@@ -250,7 +252,7 @@ public:
 			}
 		}
 		
-		if(!tmp[0].Released) return -1;
+		if(!tmp[0].Released || tmp[0].Del) return -1;
 		
 		if(_a > _b || !_a || !_b) return -1;
 		TimePoint StartWhat = tmp[0].LDate;
@@ -275,7 +277,7 @@ public:
 			NewOne.Sta = success;
 			OrderMap[make_pair(UserID, Us[UserID].OrderNum)] = NewOne;
 			NewOne.doit(1);
-			return NewOne.Cost * NewOne.Num;
+			return 1LL * NewOne.Cost * NewOne.Num;
 		} else {
 			Us[UserID].OrderNum ++;
 			NewOne.Sta = pending;
@@ -644,8 +646,8 @@ public:
 }OrderOperator;
 
 int main() {
-//	freopen("data.txt", "r", stdin);
-//	freopen("data.out", "w", stdout);
+	freopen("data.txt", "r", stdin);
+	freopen("data.out", "w", stdout);
 	TrainData.open("TrainData", ios::binary|ios::in|ios::out);
     SeatSold.open("SeatSold", ios::binary|ios::in|ios::out);
     OrderData.open("OrderData", ios::binary|ios::in|ios::out);
@@ -706,9 +708,9 @@ int main() {
 			int cur = UserOperator.ModifyProfile();
 			if(cur == -1) printf("%d\n", cur);
 		} else if(!strcmp(opt, "buy_ticket")) {
-            int cur = OrderOperator.BuyTicket();
+            long long cur = OrderOperator.BuyTicket();
             if(cur == -2) puts("queue");
-            else printf("%d\n", cur);
+            else printf("%lld\n", cur);
         } else if(!strcmp(opt, "query_order")) {
             int cur = OrderOperator.QueryOrder();
             if(cur == -1) {
