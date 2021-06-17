@@ -20,7 +20,6 @@ struct Stationfuck {
 		StationsGO.open("StationsGO", ios::in|ios::out|ios::binary);
 		int now = FileOperator.getend(StationsGO), a[1], b[1];
 		Map.clear();
-//		cerr << "sdasjdlkajsdlajsdljasdljasdlkasjdlkjasdlkajsdlasjdlaksjdlaskjdaskljdaskljdaskldjlkasjasdkjlsadjklljadsk" << endl; 
 		for(int i = 0; i < now; i += sizeof(int)) {
 			FileOperator.get(StationsGO, i, 1, a);
 			i += sizeof(int);
@@ -35,13 +34,11 @@ struct Stationfuck {
 		StationsGO.open("StationsGO", ios::in|ios::out|ios::binary);
 		int a[1], b[1];
 		int pos = 0;
-//		cerr << "FUCK" << endl;
 		for(auto V : Stations) {
 			a[0] = V.first;
 			FileOperator.write(StationsGO, pos, 1, a);
 			pos += sizeof(int);
 			b[0] = V.second;
-//			cerr << a[0] <<' ' << b[0] << endl;
 			FileOperator.write(StationsGO, pos, 1, b);
 			pos += sizeof(int);
 		}
@@ -53,7 +50,7 @@ fstream rtGO, chGO, szGO, UserGO, TrainGO, StaGO, TraGO, cntAllGO;
 
 class Has {
 	public: 
-	int rt, ch[MAXSTR][129], sz, User[MAXSTR], Train[MAXSTR];
+	int rt, ch[MAXSTR][63], sz, User[MAXSTR], Train[MAXSTR];
 	char Sta[1000005][35], Tra[N][35];
 	int cntAll = 0;
 	
@@ -99,8 +96,8 @@ class Has {
 		
 		int pos = 0;
 		for(int i = 1; i <= sz; ++ i) {
-			FileOperator.get(chGO, pos, 129, ch[i]);
-			pos += sizeof(int) * 129;
+			FileOperator.get(chGO, pos, 63, ch[i]);
+			pos += sizeof(int) * 63;
 		}
 		
 		pos = 0;
@@ -149,8 +146,8 @@ class Has {
 		
 		int pos = 0;
 		for(int i = 1; i <= sz; ++ i) {
-			FileOperator.write(chGO, pos, 129, ch[i]);
-			pos += sizeof(int) * 129;
+			FileOperator.write(chGO, pos, 63, ch[i]);
+			pos += sizeof(int) * 63;
 		}
 		
 		
@@ -172,15 +169,16 @@ class Has {
 		for(int i = 1; i <= cntAll; ++ i) {
 			for(int j = i + 1; j <= cntAll; ++ j) {
 				if(!strcmp(Sta[i], Sta[j])) {
-					//cerr << i <<' ' << j << "wtf" << endl;
 				}
 			}
 		}
-		//puts("");
 	}
 	
 	int ConvertToNum(char c) {
-		return(int)c;
+		if(c >= 'a' && c <= 'z') return c - 'a';
+		if(c >= 'A' && c <= 'Z') return c - 'A' + 26;
+		if(c >= '0' && c <= '9') return c - '0' + 52;
+		return 62; 
 	}
 	
 	void addUser(char *s, int user) {
