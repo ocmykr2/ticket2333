@@ -13,7 +13,7 @@ map <int, int> Stations;
 
 fstream StationsGO;
 
-/*struct Stationfuck {
+struct Stationfuck {
 	map <int, int> Map;
 	Stationfuck() {
 		
@@ -47,7 +47,7 @@ fstream StationsGO;
 		}
 		StationsGO.close();
 	}
-}tuile;*/
+}tuile;
 
 fstream rtGO, chGO, szGO, UserGO, TrainGO, StaGO, TraGO, cntAllGO;
 
