@@ -10,9 +10,9 @@ fstream TrainData;
 fstream SeatSold;
 int Seatsold[R];
 int BegOfSold[N], BegOfTrain[N];
-map < pair <int, int>, int> Station_To_Train;
+map < pii, int> Station_To_Train;
 
-fstream StationGO;
+fstream StationGO; 
 
 struct MyStation {
 	map < pii, int> Map;
@@ -128,13 +128,6 @@ public:
 		TrainNum = tmp[0];
 		FileOperator.get(BegOfSoldGO, 0, TrainNum,BegOfSold + 1);
  		FileOperator.get(BegOfTrainGO, 0, TrainNum, BegOfTrain + 1);
-//		cerr <<"A" << endl;
-//		for(int i = 1; i <= TrainNum; ++ i) cerr << BegOfSold[i] <<' ';
-//		cerr << endl;
-//		for(int i = 1; i <= TrainNum; ++ i) cerr << BegOfTrain[i] <<' ';
-//		cerr << endl; 
-//		cerr << "A" << endl;
-		
     	TrainNumGO.close();
 		BegOfSoldGO.close();
 		BegOfTrainGO.close();
@@ -152,30 +145,27 @@ public:
 		FileOperator.write(TrainNumGO, 0, 1, tmp);
 		FileOperator.write(BegOfSoldGO, 0, TrainNum,BegOfSold + 1);
  		FileOperator.write(BegOfTrainGO, 0, TrainNum, BegOfTrain + 1);
-//		cerr <<"B" << endl;
-//		for(int i = 1; i <= TrainNum; ++ i) cerr << BegOfSold[i] <<' ';
-//		cerr << endl;
-//		for(int i = 1; i <= TrainNum; ++ i) cerr << BegOfTrain[i] <<' ';
-//		cerr << endl; 
-//		cerr << "B" << endl;
     	TrainNumGO.close();
 		BegOfSoldGO.close();
 		BegOfTrainGO.close();
     }  
     
-	
 	int AddTrain() {
 		using std :: string;
 		using std :: cin;
 		Train NewOne;
 		string cmd;
 		int ans = 0;
+		Train ppp[2];
 		for(int i = 1; i <= 10; ++ i) {
 			scanf("%s", opt);
 			if(!strcmp(opt, "-i")) {
 				scanf("%s", TrainID);
-				if(IdGetter.getTrain(TrainID)) {
-					ans = -1;
+				int cxt = 0;
+				if(cxt = IdGetter.getTrain(TrainID)) {
+					FileOperator.write(TrainData, BegOfTrain[cxt], 1, ppp);
+					if(ppp[0].Del) ans = 1;
+					else ans = -1;
 				}
 			} else if(!strcmp(opt, "-n")) scanf("%d", &NewOne.StationNum);
 			else if(!strcmp(opt, "-m")) scanf("%d", &NewOne.SeatNum);
@@ -220,7 +210,7 @@ public:
 					++ pos;
 					Name[tot] = '\0';
 					NewOne.Time[i] = (getnum(Name));
-				}				
+				}
 			} else if(!strcmp(opt, "-o")) {
 				if(!NewOne.StationNum) throw;
 				scanf("%s", opt); int pos = 0, l = strlen(opt);
@@ -244,8 +234,8 @@ public:
 				scanf("%s", opt);
 				NewOne.Type = opt[0];				
 			}
-			
 		}
+		
 		if(ans == -1 || !NewOne.StartTime.valid() || !NewOne.LDate.valid() || !NewOne.RDate.valid()
 		|| NewOne.RDate < NewOne.LDate || !NewOne.SeatNum) {
 			return -1;
@@ -259,7 +249,9 @@ public:
 		
 		
 		tmp[0] = NewOne;
-		int ID = ++ TrainNum, T = (NewOne.RDate - NewOne.LDate) + 1;
+		int ID = 0, T = (NewOne.RDate - NewOne.LDate) + 1;
+		if(ans) ID = IdGetter.getTrain(TrainID);
+		else ID = ++ TrainNum;
 		IdGetter.addTrain(TrainID, ID);
 		BegOfTrain[ID] = pos;
 		FileOperator.write(TrainData, pos, 1, tmp);

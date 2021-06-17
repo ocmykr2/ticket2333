@@ -238,7 +238,7 @@ public:
 		
 		if(!UserID || !TrainID || !Start || !End ||
 		!Us[UserID].Online
-//		|| !Num
+		|| !Num
 		) return -1;
 		Train tmp[1];
 		FileOperator.get(TrainData, BegOfTrain[TrainID], 1, tmp);
@@ -265,7 +265,7 @@ public:
 		if((StartWhat + (Days - 1) * 1440) < cur) return -1;
 		int where = (cur - StartWhat) + 1;
 		int curr = where;
-		int StartSta = _a, EndSta = _b, Cost = tmp[0].Price[_b - 1] - tmp[0].Price[_a - 1], 
+		int StartSta = _a, EndSta = _b, Cost = tmp[0].Price[_b - 1] - tmp[0].Price[_a - 1],
 		UserNum = Us[UserID].OrderNum + 1;
 		Order NewOne(UserID, TrainID, UserNum, Num, Cost, curr, StartSta, EndSta);
 		bool it = NewOne.valid();
@@ -301,6 +301,13 @@ public:
             return -1;
         }
         printf("%d\n", Us[UserID].OrderNum);
+        /*flg[ttt2] = 1;
+        if(OrderNum >= 8) {
+	        flg[ttt2] &= (!strcmp(IdGetter.Tra[OrderMap[make_pair(UserID, 1)].TrainID], "INSCRIPTIONS"));
+   	    	flg[ttt2] &= (!strcmp(IdGetter.Tra[OrderMap[make_pair(UserID, 2)].TrainID], "IHEARDthatyouask"));
+   	    	flg[ttt2] &= (!strcmp(IdGetter.Tra[OrderMap[make_pair(UserID, 1)].TrainID], "INSCRIPTIONS"));
+		} else flg[ttt2] = 0;*/
+		
         for(int i = Us[UserID].OrderNum; i >= 1; -- i) {
             Order it = OrderMap[make_pair(UserID, i)];
 			it.print(); 
@@ -646,8 +653,8 @@ public:
 }OrderOperator;
 
 int main() {
-	freopen("data.txt", "r", stdin);
-	freopen("data.out", "w", stdout);
+	//freopen("data.txt", "r", stdin);
+	//freopen("data.out", "w", stdout);
 	TrainData.open("TrainData", ios::binary|ios::in|ios::out);
     SeatSold.open("SeatSold", ios::binary|ios::in|ios::out);
     OrderData.open("OrderData", ios::binary|ios::in|ios::out);
