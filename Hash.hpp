@@ -5,7 +5,7 @@
 #include "FileOperator.hpp"
 #include <bits/stdc++.h>
 
-const int MAXSTR = N * 31;
+const int MAXSTR = N * 29;
 const int Base = 111111;
 const int mod = 1e9 + 7;
 
