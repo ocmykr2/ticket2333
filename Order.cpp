@@ -185,7 +185,7 @@ public:
 		FileOperator.write(nxtGO, 0, cnt, nxt + 1);
     	cntGO.close(); FirGO.close(); TailGO.close(); whoGO.close();
 		return;   	
-    }
+    }    
     
 	std :: string cmd;
 	int tot = 0, pos = 0;
@@ -201,7 +201,7 @@ public:
 		opt[tot] = '\0';
 	}
     
-    long long BuyTicket() {
+    int BuyTicket() {
         using std :: string;
         using std :: cin;
         int UserID = 0, TrainID = 0, Start = 0, End = 0, Num = 0;
@@ -237,9 +237,7 @@ public:
 		}
 		
 		if(!UserID || !TrainID || !Start || !End ||
-		!Us[UserID].Online
-		|| !Num
-		) return -1;
+		!Us[UserID].Online || !Num) return -1;
 		Train tmp[1];
 		FileOperator.get(TrainData, BegOfTrain[TrainID], 1, tmp);
 		int _a = 0, _b = 0;
@@ -252,7 +250,7 @@ public:
 			}
 		}
 		
-		if(!tmp[0].Released || tmp[0].Del) return -1;
+		if(!tmp[0].Released) return -1;
 		
 		if(_a > _b || !_a || !_b) return -1;
 		TimePoint StartWhat = tmp[0].LDate;
@@ -265,7 +263,7 @@ public:
 		if((StartWhat + (Days - 1) * 1440) < cur) return -1;
 		int where = (cur - StartWhat) + 1;
 		int curr = where;
-		int StartSta = _a, EndSta = _b, Cost = tmp[0].Price[_b - 1] - tmp[0].Price[_a - 1],
+		int StartSta = _a, EndSta = _b, Cost = tmp[0].Price[_b - 1] - tmp[0].Price[_a - 1], 
 		UserNum = Us[UserID].OrderNum + 1;
 		Order NewOne(UserID, TrainID, UserNum, Num, Cost, curr, StartSta, EndSta);
 		bool it = NewOne.valid();
@@ -277,7 +275,7 @@ public:
 			NewOne.Sta = success;
 			OrderMap[make_pair(UserID, Us[UserID].OrderNum)] = NewOne;
 			NewOne.doit(1);
-			return 1LL * NewOne.Cost * NewOne.Num;
+			return NewOne.Cost * NewOne.Num;
 		} else {
 			Us[UserID].OrderNum ++;
 			NewOne.Sta = pending;
@@ -301,13 +299,6 @@ public:
             return -1;
         }
         printf("%d\n", Us[UserID].OrderNum);
-        /*flg[ttt2] = 1;
-        if(OrderNum >= 8) {
-	        flg[ttt2] &= (!strcmp(IdGetter.Tra[OrderMap[make_pair(UserID, 1)].TrainID], "INSCRIPTIONS"));
-   	    	flg[ttt2] &= (!strcmp(IdGetter.Tra[OrderMap[make_pair(UserID, 2)].TrainID], "IHEARDthatyouask"));
-   	    	flg[ttt2] &= (!strcmp(IdGetter.Tra[OrderMap[make_pair(UserID, 1)].TrainID], "INSCRIPTIONS"));
-		} else flg[ttt2] = 0;*/
-		
         for(int i = Us[UserID].OrderNum; i >= 1; -- i) {
             Order it = OrderMap[make_pair(UserID, i)];
 			it.print(); 
@@ -653,8 +644,8 @@ public:
 }OrderOperator;
 
 int main() {
-	//freopen("data.txt", "r", stdin);
-	//freopen("data.out", "w", stdout);
+//	freopen("data.txt", "r", stdin);
+//	freopen("data.out", "w", stdout);
 	TrainData.open("TrainData", ios::binary|ios::in|ios::out);
     SeatSold.open("SeatSold", ios::binary|ios::in|ios::out);
     OrderData.open("OrderData", ios::binary|ios::in|ios::out);
@@ -715,9 +706,9 @@ int main() {
 			int cur = UserOperator.ModifyProfile();
 			if(cur == -1) printf("%d\n", cur);
 		} else if(!strcmp(opt, "buy_ticket")) {
-            long long cur = OrderOperator.BuyTicket();
+            int cur = OrderOperator.BuyTicket();
             if(cur == -2) puts("queue");
-            else printf("%lld\n", cur);
+            else printf("%d\n", cur);
         } else if(!strcmp(opt, "query_order")) {
             int cur = OrderOperator.QueryOrder();
             if(cur == -1) {
