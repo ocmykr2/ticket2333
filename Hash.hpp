@@ -35,13 +35,11 @@ struct Stationfuck {
 		StationsGO.open("StationsGO", ios::in|ios::out|ios::binary);
 		int a[1], b[1];
 		int pos = 0;
-//		cerr << "FUCK" << endl;
 		for(auto V : Stations) {
 			a[0] = V.first;
 			FileOperator.write(StationsGO, pos, 1, a);
 			pos += sizeof(int);
 			b[0] = V.second;
-//			cerr << a[0] <<' ' << b[0] << endl;
 			FileOperator.write(StationsGO, pos, 1, b);
 			pos += sizeof(int);
 		}
@@ -53,7 +51,7 @@ fstream rtGO, chGO, szGO, UserGO, TrainGO, StaGO, TraGO, cntAllGO;
 
 class Has {
 	public: 
-	int rt, ch[MAXSTR][129], sz, User[MAXSTR], Train[MAXSTR];
+	int rt, ch[MAXSTR][2], sz, User[MAXSTR], Train[MAXSTR];
 	char Sta[1000005][35], Tra[N][35];
 	int cntAll = 0;
 	
@@ -172,53 +170,9 @@ class Has {
 		for(int i = 1; i <= cntAll; ++ i) {
 			for(int j = i + 1; j <= cntAll; ++ j) {
 				if(!strcmp(Sta[i], Sta[j])) {
-					//cerr << i <<' ' << j << "wtf" << endl;
 				}
 			}
 		}
-		//puts("");
-	}
-	
-	int ConvertToNum(char c) {
-		return(int)c;
-	}
-	
-	void addUser(char *s, int user) {
-		int len = strlen(s);
-		int now = rt;
-		for(int i = 0; i < len; ++ i) {
-			int &it = ch[now][ConvertToNum(s[i])];
-			if(!it) it = ++ sz;
-			now = ch[now][ConvertToNum(s[i])];
-		}
-		User[now] = user;
-	}
-	
-	void addTrain(char *s, int train) {
-		int len = strlen(s);
-		int now = rt;
-		for(int i = 0; i < len; ++ i) {
-			int &it = ch[now][ConvertToNum(s[i])];
-			if(!it) it = ++ sz;
-			now = ch[now][ConvertToNum(s[i])];
-		}
-		Train[now] = train;
-		strcpy(Tra[train], s);
-	}
-	
-	int getUser(char *s) {
-		int len = strlen(s), now = rt;
-		for(int i = 0; i < len; ++ i) 
-		now = ch[now][ConvertToNum(s[i])];
-		return User[now];
-	}
-	
-	int getTrain(char *s) {
-		int len = strlen(s), now = rt;
-		for(int i = 0; i < len; ++ i) {
-			now = ch[now][ConvertToNum(s[i])];
-		}
-		return Train[now];
 	}
 	
 	int HashS(char *s) {
@@ -231,7 +185,47 @@ class Has {
 		return ans;
 	}
 	
-	//BPtree<int, int> Stations("a", "b");
+	int ConvertToNum(char c) {
+		return(int)c;
+	}
+	
+	void addUser(char *s, int user) {
+		int x = HashS(s);
+		int now = rt;
+		for(int i = 0; i < 31; ++ i) {
+			int &it = ch[now][(x >> i) & 1];
+			if(!it) it = ++ sz;
+			now = ch[now][(x >> i) & 1];
+		}
+		User[now] = user;
+	}
+	
+	void addTrain(char *s, int train) {
+		int x = HashS(s);
+		int now = rt;
+		for(int i = 0; i < 31; ++ i) {
+			int &it = ch[now][(x >> i) & 1];
+			if(!it) it = ++ sz;
+			now = ch[now][(x >> i) & 1];
+		}
+		Train[now] = train;
+		strcpy(Tra[train], s);
+	}
+	
+	int getUser(char *s) {
+		int x = HashS(s), now = rt;
+		for(int i = 0; i < 31; ++ i) 
+		now = ch[now][(x >> i) & 1];
+		return User[now];
+	}
+	
+	int getTrain(char *s) {
+		int x = HashS(s), now = rt;
+		for(int i = 0; i < 31; ++ i) {
+			now = ch[now][(x >> i) & 1];
+		}
+		return Train[now];
+	}
 	
 	int HashStation(char *opt) {
 		int now = HashS(opt);
@@ -242,8 +236,6 @@ class Has {
 		}
 		
 		if(strcmp(opt, Sta[Stations[now]])) throw;
-		
-//		printf("%s I don't believe %d %d\n", opt, now, Stations[now]);
 		
 		return Stations[now];
 	}
