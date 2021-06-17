@@ -157,47 +157,40 @@ public:
     	int tmp[2] = {0};
     	cntGO.open("cntGO", ios::binary|ios::in|ios::out);
     	FirGO.open("FirGO", ios::binary|ios::in|ios::out);
-    	TailGO.open("TailGO", ios::binary|ios::in|ios::out);
-    	whoGO.open("whoGO", ios::binary|ios::in|ios::out);
-    	nxtGO.open("nxtGO", ios::binary|ios::in|ios::out);
 		if(FileOperator.getend(cntGO) < 2) {
 			memset(fir, 0, sizeof(fir));
 			memset(tail, 0, sizeof(tail));
 			cnt = 0;
 			memset(who, 0, sizeof(who));
 			memset(nxt, 0, sizeof(nxt));
+			cntGO.close(); FirGO.close();
 			return;
 		}
 		FileOperator.get(cntGO, 0, 2, tmp);
 		cnt = tmp[0];
 		FileOperator.get(FirGO, 0, tmp[1], fir + 1);
-		FileOperator.get(TailGO, 0, tmp[1], tail + 1);
-		FileOperator.get(whoGO, 0, cnt, who + 1);
-		FileOperator.get(nxtGO, 0, cnt, nxt + 1);
-    	cntGO.close(); FirGO.close(); TailGO.close(); whoGO.close();
+		FileOperator.get(FirGO, tmp[1] * sizeof(int), tmp[1], tail + 1);
+		FileOperator.get(FirGO, tmp[1] * 2 * sizeof(int), cnt, who + 1);
+		FileOperator.get(FirGO, (tmp[1] * 2) * sizeof(int) + cnt * sizeof(pii), cnt, nxt + 1);
+    	cntGO.close(); FirGO.close();
     }
     
     ~Orderoperator() {
     	int tmp[2] = {0};
     	FileOperator.NewFile("cntGO");
     	FileOperator.NewFile("FirGO");
-    	FileOperator.NewFile("TailGO");
-    	FileOperator.NewFile("whoGO");
-    	FileOperator.NewFile("nxtGO");
      	cntGO.open("cntGO", ios::binary|ios::in|ios::out);
     	FirGO.open("FirGO", ios::binary|ios::in|ios::out);
-    	TailGO.open("TailGO", ios::binary|ios::in|ios::out);
-    	whoGO.open("whoGO", ios::binary|ios::in|ios::out);
-    	nxtGO.open("nxtGO", ios::binary|ios::in|ios::out);
 		tmp[0] = cnt; tmp[1] = N - 1;
 		FileOperator.write(cntGO, 0, 2, tmp);
-		FileOperator.write(FirGO, 0, N - 1, fir + 1);
-		FileOperator.write(TailGO, 0, N - 1, tail + 1);
-		FileOperator.write(whoGO, 0, cnt, who + 1);
-		FileOperator.write(nxtGO, 0, cnt, nxt + 1);
-    	cntGO.close(); FirGO.close(); TailGO.close(); whoGO.close();
+		FileOperator.write(FirGO, 0, tmp[1], fir + 1);
+		FileOperator.write(FirGO, tmp[1] * sizeof(int), tmp[1], tail + 1);
+		FileOperator.write(FirGO, tmp[1] * 2 * sizeof(int), cnt, who + 1);
+		FileOperator.write(FirGO, (tmp[1] * 2) * sizeof(int) + cnt * sizeof(pii), cnt, nxt + 1);
+    	cntGO.close(); FirGO.close();
 		return;   	
     }
+
     
 	std :: string cmd;
 	int tot = 0, pos = 0;
@@ -685,8 +678,8 @@ public:
 }OrderOperator;
 
 int main() {
-//	freopen("data.txt", "r", stdin);
-//	freopen("data.out", "w", stdout);
+	freopen("data.txt", "r", stdin);
+	freopen("data.out", "w", stdout);
 	TrainData.open("TrainData", ios::binary|ios::in|ios::out);
     SeatSold.open("SeatSold", ios::binary|ios::in|ios::out);
     OrderData.open("OrderData", ios::binary|ios::in|ios::out);
@@ -793,4 +786,5 @@ if(0) {
 	}
 }
 #endif
+
 

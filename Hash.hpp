@@ -68,111 +68,79 @@ class Has {
 	
 	Has() {
 		rtGO.open("rtGO", ios::binary|ios::out|ios::in);
-		chGO.open("chGO", ios::binary|ios::out|ios::in);
-		szGO.open("szGO", ios::binary|ios::out|ios::in);
 		UserGO.open("UserGO", ios::binary|ios::out|ios::in);
-		TrainGO.open("TrainGO", ios::binary|ios::out|ios::in);
-		StaGO.open("StaGO", ios::binary|ios::out|ios::in);
-		TraGO.open("TraGO", ios::binary|ios::out|ios::in);
-		cntAllGO.open("cntAllGO", ios::binary|ios::out|ios::in);
+		chGO.open("chGO", ios::binary|ios::out|ios::in);
 		int tmp[3];
 		if(FileOperator.getend(rtGO) == -1) {
 			sz = rt = 1;
+			rtGO.close();  UserGO.close(); chGO.close();
 			return;
 		}
 		
-		FileOperator.get(rtGO, 0, 1, tmp);
-		FileOperator.get(szGO, 0, 1, tmp + 1);
-		FileOperator.get(cntAllGO, 0, 1, tmp + 2);
-		rt = tmp[0]; 
+		FileOperator.get(rtGO, 0, 3, tmp);
+		rt = tmp[0]; sz = tmp[1]; cntAll = tmp[2];
 		
-		sz = tmp[1]; cntAll = tmp[2];
 		if(!rt) {
 			rt = sz = 1;
 			cntAll = 0;
+			rtGO.close();  UserGO.close(); chGO.close();
 			return;
 		}
 		FileOperator.get(UserGO, 0, sz, User + 1);
-		FileOperator.get(TrainGO, 0, sz, Train + 1);
+		FileOperator.get(UserGO, sz * sizeof(int), sz, Train + 1);
 		
 		int pos = 0;
 		for(int i = 1; i <= sz; ++ i) {
-			FileOperator.get(chGO, pos, 129, ch[i]);
-			pos += sizeof(int) * 129;
+			FileOperator.get(chGO, pos, 2, ch[i]);
+			pos += sizeof(int) * 2;
 		}
 		
-		pos = 0;
-		
 		for(int i = 1; i <= cntAll; ++ i) {
-			FileOperator.get(StaGO, pos, 35, Sta[i]);
+			FileOperator.get(chGO, pos, 35, Sta[i]);
 			pos += sizeof(char) * 35;
 		}
 		
-		pos = 0;
-		
 		for(int i = 1; i < N; ++ i) {
-			FileOperator.get(TraGO, pos, 35, Tra[i]);
+			FileOperator.get(chGO, pos, 35, Tra[i]);
 			pos += sizeof(char) * 35;
 		}
 
 			
-		rtGO.close(); chGO.close(); szGO.close(); UserGO.close(); TrainGO.close();StaGO.close(); TraGO.close(); cntAllGO.close();
+		rtGO.close();  UserGO.close(); chGO.close();
 		
 	}
 	
 	~Has() {
 		FileOperator.NewFile("rtGO");
-		FileOperator.NewFile("chGO");
-		FileOperator.NewFile("szGO");
 		FileOperator.NewFile("UserGO");
-		FileOperator.NewFile("TrainGO");
-		FileOperator.NewFile("StaGO");
-		FileOperator.NewFile("TraGO");
-		FileOperator.NewFile("cntAllGO");
+		FileOperator.NewFile("chGO");
 		rtGO.open("rtGO", ios::binary|ios::out|ios::in);
-		chGO.open("chGO", ios::binary|ios::out|ios::in);
-		szGO.open("szGO", ios::binary|ios::out|ios::in);
 		UserGO.open("UserGO", ios::binary|ios::out|ios::in);
-		TrainGO.open("TrainGO", ios::binary|ios::out|ios::in);
-		StaGO.open("StaGO", ios::binary|ios::out|ios::in);
-		TraGO.open("TraGO", ios::binary|ios::out|ios::in);
-		cntAllGO.open("cntAllGO", ios::binary|ios::out|ios::in);
+		chGO.open("chGO", ios::binary|ios::out|ios::in);
 		int tmp[3];
 		tmp[0] = rt; tmp[1] = sz; tmp[2] = cntAll;
-		FileOperator.write(rtGO, 0, 1, tmp);
-		FileOperator.write(szGO, 0, 1, tmp + 1);
-		FileOperator.write(cntAllGO, 0, 1, tmp + 2);
+		FileOperator.write(rtGO, 0, 3, tmp);
 		FileOperator.write(UserGO, 0, sz, User + 1);
-		FileOperator.write(TrainGO, 0, sz, Train + 1);
+		FileOperator.write(UserGO, sz * sizeof(int), sz, Train + 1);
 		
 		int pos = 0;
 		for(int i = 1; i <= sz; ++ i) {
-			FileOperator.write(chGO, pos, 129, ch[i]);
-			pos += sizeof(int) * 129;
+			FileOperator.write(chGO, pos, 2, ch[i]);
+			pos += sizeof(int) * 2;
 		}
 		
 		
-		pos = 0;
-		
 		for(int i = 1; i <= cntAll; ++ i) {
-			FileOperator.write(StaGO, pos, 35, Sta[i]);
+			FileOperator.write(chGO, pos, 35, Sta[i]);
 			pos += sizeof(char) * 35;
 		}
 		
-		pos = 0;
-		
 		for(int i = 1; i < N; ++ i) {
-			FileOperator.write(TraGO, pos, 35, Tra[i]);
+			FileOperator.write(chGO, pos, 35, Tra[i]);
 			pos += sizeof(char) * 35;
 		}
 				
-		rtGO.close(); chGO.close(); szGO.close(); UserGO.close(); TrainGO.close();StaGO.close(); TraGO.close(); cntAllGO.close();
-		for(int i = 1; i <= cntAll; ++ i) {
-			for(int j = i + 1; j <= cntAll; ++ j) {
-				if(!strcmp(Sta[i], Sta[j])) {
-				}
-			}
-		}
+		rtGO.close(); UserGO.close();chGO.close();
 	}
 	
 	int HashS(char *s) {
