@@ -167,15 +167,19 @@ public:
 	int AddTrain() {
 		using std :: string;
 		using std :: cin;
-		Train NewOne;
+		Train NewOne, ppp[1];
 		string cmd;
 		int ans = 0;
 		for(int i = 1; i <= 10; ++ i) {
 			scanf("%s", opt);
 			if(!strcmp(opt, "-i")) {
 				scanf("%s", TrainID);
-				if(IdGetter.getTrain(TrainID)) {
+				int cxt = 0;
+				if(cxt = IdGetter.getTrain(TrainID)) {
+					FileOperator.get(TrainData, BegOfTrain[cxt], 1, ppp);
+					if(!ppp[0].Del)
 					ans = -1;
+					else ans = cxt;
 				}
 			} else if(!strcmp(opt, "-n")) scanf("%d", &NewOne.StationNum);
 			else if(!strcmp(opt, "-m")) scanf("%d", &NewOne.SeatNum);
@@ -259,7 +263,7 @@ public:
 		
 		
 		tmp[0] = NewOne;
-		int ID = ++ TrainNum, T = (NewOne.RDate - NewOne.LDate) + 1;
+		int ID = (!ans) ? ++ TrainNum: ans, T = (NewOne.RDate - NewOne.LDate) + 1;
 		IdGetter.addTrain(TrainID, ID);
 		BegOfTrain[ID] = pos;
 		FileOperator.write(TrainData, pos, 1, tmp);
